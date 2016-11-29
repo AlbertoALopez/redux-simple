@@ -1,6 +1,6 @@
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
 const todo = (state, action) => {
     switch(action.type) {
@@ -61,6 +61,21 @@ const testAddTodo = () => {
     ).toEqual(stateAfter);
 };
 
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+    switch (action.type) {
+        case 'SET_VISIBILITY_FILTER':
+            return action.filter;
+        default:
+            return state;
+    }
+};
+
+const todoApp = combineReducers({
+    todos,
+    visibilityFilter,
+});
+
+
 const testToggleTodo = () => {
     const stateBefore = [
         {
@@ -103,3 +118,16 @@ const testToggleTodo = () => {
 testAddTodo();
 testToggleTodo();
 console.log('All tests done');
+
+const store = createStore(todoApp);
+console.log('InitialState:');
+console.log(store.getState());
+
+
+console.log('Dispatching ADD_TODO');
+store.dispatch({
+    type: 'ADD_TODO',
+    id: 1,
+    text: 'Go shopping',
+});
+console.log(store.getState());
