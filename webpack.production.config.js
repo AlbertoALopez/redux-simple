@@ -8,7 +8,7 @@ module.exports = {
     devtool: 'source-map',
     entry: [
         path.join(__dirname, 'src/app/main.js'),
-        path.join(__dirname, 'src/app/stylesheets/main.scss')
+        path.join(__dirname, 'src/stylesheets/main.scss')
     ],
     output: {
         path: path.join(__dirname, '/dist/'),
@@ -18,7 +18,7 @@ module.exports = {
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
         new HtmlWebpackPlugin({
-            template: 'src/app/index.tpl.html',
+            template: 'src/index.tpl.html',
             inject: 'body',
             filename: 'index.html'
         }),

@@ -1,64 +1,43 @@
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
 import { createStore, combineReducers } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 const todo = (state, action) => {
-    switch(action.type) {
-        case 'ADD_TODO':
-            return {
-                id: action.id,
-                text: action.text,
-                completed: false,
-            };
-        case 'TOGGLE_TODO':
-            if (state.id !== action.id) {
-                return state;
-            }
-
-            return {
-                ...state,
-                completed: !state.completed,
-            };
-        default:
+    switch (action.type) {
+    case 'ADD_TODO':
+        return {
+            id: action.id,
+            text: action.text,
+            completed: false,
+        };
+    case 'TOGGLE_TODO':
+        if (state.id !== action.id) {
             return state;
+        }
+
+        return {
+            ...state,
+            completed: !state.completed,
+        };
+    default:
+        return state;
     }
 };
 
 
 const todos = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_TODO':
-            return [
-                ...state,
-                todo(undefined, action),
-            ];
-        case 'TOGGLE_TODO':
-            return state.map((t) => todo(t, action));
-        default:
-            return state;
+    case 'ADD_TODO':
+        return [
+            ...state,
+            todo(undefined, action),
+        ];
+    case 'TOGGLE_TODO':
+        console.log('toggle');
+        return state.map(t => todo(t, action));
+    default:
+        return state;
     }
-};
-
-const testAddTodo = () => {
-    const stateBefore = [];
-    const action = {
-        type: 'ADD_TODO',
-        id: 0,
-        text: 'Learn Redux',
-    };
-    const stateAfter = [
-        {
-            id: 0,
-            text: 'Learn Redux',
-            completed: false,
-        },
-    ];
-    deepFreeze(stateBefore);
-    deepFreeze(action);
-
-    expect(
-        todos(stateBefore, action)
-    ).toEqual(stateAfter);
 };
 
 const visibilityFilter = (state = 'SHOW_ALL', action) => {
@@ -75,59 +54,68 @@ const todoApp = combineReducers({
     visibilityFilter,
 });
 
+const store = createStore(todoApp);
 
-const testToggleTodo = () => {
-    const stateBefore = [
-        {
-            id: 0,
-            text: 'Learn Redux',
-            completed: false,
-        },
-        {
-            id: 1,
-            text: 'Go shopping',
-            completed: false,
-        },
-    ];
-    const stateAfter = [
-        {
-            id: 0,
-            text: 'Learn Redux',
-            completed: false,
-        },
-        {
-            id: 1,
-            text: 'Go shopping',
-            completed: true,
-        },
-    ];
+let nextTodoId = 0;
 
-    const action = {
-        type: 'TOGGLE_TODO',
-        id: 1,
+class TodoApp extends React.Component {
+    static propTypes = {
+        todos: React.PropTypes.array.isRequired,
     };
 
-    deepFreeze(stateBefore);
-    deepFreeze(action);
+    render() {
+        return (
+            <div>
+                <input
+                    ref={(node) => {
+                        this.input = node;
+                    }}
+                />
+                <button
+                    onClick={() => {
+                        store.dispatch({
+                            type: 'ADD_TODO',
+                            text: this.input.value,
+                            id: nextTodoId++,
+                        });
+                    }}
+                >
+                    Add Todo
+                </button>
+                <ul>
+                    {this.props.todos.map(t =>
+                        <li
+                            key={t.id}
+                            onClick={() => {
+                                store.dispatch({
+                                    type: 'TOGGLE_TODO',
+                                    id: t.id,
+                                });
+                            }}
+                            style={{
+                                textDecoration:
+                                    t.completed ?
+                                        'line-through' :
+                                        'none',
+                            }}
+                        >
+                            {t.text}
+                        </li>
+                    )}
+                </ul>
+            </div>
+        );
+    }
+}
 
-    expect(
-        todos(stateBefore, action)
-    ).toEqual(stateAfter);
+const render = () => {
+    ReactDOM.render(
+        <TodoApp
+            todos={store.getState().todos}
+        />,
+        document.getElementById('root')
+    );
 };
 
-testAddTodo();
-testToggleTodo();
-console.log('All tests done');
-
-const store = createStore(todoApp);
-console.log('InitialState:');
-console.log(store.getState());
-
-
-console.log('Dispatching ADD_TODO');
-store.dispatch({
-    type: 'ADD_TODO',
-    id: 1,
-    text: 'Go shopping',
-});
-console.log(store.getState());
+store.subscribe(render);
+render();
