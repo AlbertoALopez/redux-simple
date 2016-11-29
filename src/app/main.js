@@ -1,5 +1,6 @@
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
+import { createStore } from 'redux';
 
 const todo = (state, action) => {
     switch(action.type) {
@@ -32,7 +33,7 @@ const todos = (state = [], action) => {
                 todo(undefined, action),
             ];
         case 'TOGGLE_TODO':
-            return state.map((todo) => todo(todo, action));
+            return state.map((t) => todo(t, action));
         default:
             return state;
     }
