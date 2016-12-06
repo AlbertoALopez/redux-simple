@@ -1,5 +1,7 @@
 /* Todo component */
 import React from 'react';
+import TodoItem from '../TodoItem/TodoItem.jsx';
+import { connect } from 'react-redux';
 
 let nextTodoId = 0;
 
@@ -35,15 +37,28 @@ const getVisibleTodos = (todos, filter) => {
 
 class TodoApp extends React.Component {
     static propTypes = {
-        // todos: React.PropTypes.array.isRequired,
-        // visibilityFilter: React.PropTypes.bool.isRequired,
+        todos: React.PropTypes.array.isRequired,
+        visibilityFilter: React.PropTypes.string.isRequired,
     };
 
+    handleTodoAdd() {
+        this.props.dispatch({
+            type: 'ADD_TODO',
+            text: this.input.value,
+            id: nextTodoId,
+        });
+        nextTodoId++;
+    }
+
+    handleToggleTodo(id) {
+        this.props.dispatch({
+            type: 'TOGGLE_TODO',
+            id: id,
+        });
+    }
+
     render() {
-        const {
-            todos,
-            visibilityFilter
-        } = this.props;
+        const { todos, visibilityFilter } = this.props;
         const visibleTodos = getVisibleTodos(
             todos,
             visibilityFilter,
@@ -56,35 +71,18 @@ class TodoApp extends React.Component {
                     }}
                 />
                 <button
-                    onClick={() => {
-                        store.dispatch({
-                            type: 'ADD_TODO',
-                            text: this.input.value,
-                            id: nextTodoId++,
-                        });
-                    }}
+                    onClick={this.handleTodoAdd.bind(this)}
                 >
                     Add Todo
                 </button>
                 <ul>
                     {visibleTodos.map(t =>
-                        <li
+                        <TodoItem
                             key={t.id}
-                            onClick={() => {
-                                store.dispatch({
-                                    type: 'TOGGLE_TODO',
-                                    id: t.id,
-                                });
-                            }}
-                            style={{
-                                textDecoration:
-                                    t.completed ?
-                                        'line-through' :
-                                        'none',
-                            }}
-                        >
-                            {t.text}
-                        </li>
+                            text={t.text}
+                            completed={t.completed}
+                            onClick={this.handleToggleTodo.bind(this, t.id)}
+                        />
                     )}
                 </ul>
                 <p>
@@ -113,4 +111,4 @@ class TodoApp extends React.Component {
     }
 }
 
-export default TodoApp;
+export default connect()(TodoApp);

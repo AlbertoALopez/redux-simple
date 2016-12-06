@@ -1,0 +1,14 @@
+exports[`test Todo Item renders a list item 1`] = `
+<li
+  onClick={[Function]}
+  style={
+    Object {
+      "textDecoration": "none",
+    }
+  }>
+  <div
+    className="todo-item-text">
+    Test
+  </div>
+</li>
+`;
