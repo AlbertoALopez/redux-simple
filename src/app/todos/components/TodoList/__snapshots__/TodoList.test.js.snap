@@ -1,0 +1,28 @@
+exports[`test TodoList should render 1`] = `
+<ul>
+  <li
+    onClick={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }>
+    <div
+      className="todo-item-text">
+      Test1
+    </div>
+  </li>
+  <li
+    onClick={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }>
+    <div
+      className="todo-item-text">
+      Test2
+    </div>
+  </li>
+</ul>
+`;

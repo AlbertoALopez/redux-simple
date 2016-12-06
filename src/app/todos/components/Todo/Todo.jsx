@@ -1,6 +1,7 @@
 /* Todo component */
 import React from 'react';
 import TodoItem from '../TodoItem/TodoItem.jsx';
+import TodoList from '../TodoList/TodoList.jsx';
 import { connect } from 'react-redux';
 
 let nextTodoId = 0;
@@ -39,6 +40,7 @@ class TodoApp extends React.Component {
     static propTypes = {
         todos: React.PropTypes.array.isRequired,
         visibilityFilter: React.PropTypes.string.isRequired,
+        dispatch: React.PropTypes.func.isRequired,
     };
 
     handleTodoAdd() {
@@ -75,16 +77,15 @@ class TodoApp extends React.Component {
                 >
                     Add Todo
                 </button>
-                <ul>
-                    {visibleTodos.map(t =>
-                        <TodoItem
-                            key={t.id}
-                            text={t.text}
-                            completed={t.completed}
-                            onClick={this.handleToggleTodo.bind(this, t.id)}
-                        />
-                    )}
-                </ul>
+                <TodoList
+                    todos={visibleTodos}
+                    handleTodoClick={(id) => {
+                        this.props.dispatch({
+                            type: 'TOGGLE_TODO',
+                            id,
+                        });
+                    }}
+                />
                 <p>
                     Show:
                     {' '}
