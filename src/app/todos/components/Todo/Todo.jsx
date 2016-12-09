@@ -1,8 +1,9 @@
 /* Todo component */
 import React from 'react';
-import TodoItem from '../TodoItem/TodoItem.jsx';
-import TodoList from '../TodoList/TodoList.jsx';
 import { connect } from 'react-redux';
+import TodoList from '../TodoList/TodoList.jsx';
+import AddTodo from '../AddTodo/AddTodo.jsx';
+
 
 let nextTodoId = 0;
 
@@ -43,10 +44,10 @@ class TodoApp extends React.Component {
         dispatch: React.PropTypes.func.isRequired,
     };
 
-    handleTodoAdd() {
+    handleTodoAdd(value) {
         this.props.dispatch({
             type: 'ADD_TODO',
-            text: this.input.value,
+            text: value,
             id: nextTodoId,
         });
         nextTodoId++;
@@ -67,16 +68,9 @@ class TodoApp extends React.Component {
         );
         return (
             <div>
-                <input
-                    ref={(node) => {
-                        this.input = node;
-                    }}
+                <AddTodo
+                    handleTodoAdd={this.handleTodoAdd.bind(this)}
                 />
-                <button
-                    onClick={this.handleTodoAdd.bind(this)}
-                >
-                    Add Todo
-                </button>
                 <TodoList
                     todos={visibleTodos}
                     handleTodoClick={(id) => {

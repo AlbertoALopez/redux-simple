@@ -4,6 +4,7 @@ import TodoItem from './TodoItem';
 import { mount } from 'enzyme';
 
 
+// Jest snapshot test
 test('Todo Item renders a list item', () => {
     const component = renderer.create(
         <TodoItem
@@ -18,6 +19,7 @@ test('Todo Item renders a list item', () => {
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
+
 
 test('Todo Item renders text properly', () => {
     const wrapper = mount(

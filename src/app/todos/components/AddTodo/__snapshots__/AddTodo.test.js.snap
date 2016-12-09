@@ -1,0 +1,9 @@
+exports[`test AddTodo should render 1`] = `
+<div>
+  <input />
+  <button
+    onClick={[Function]}>
+    Add Todo
+  </button>
+</div>
+`;
