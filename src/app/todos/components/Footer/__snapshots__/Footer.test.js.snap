@@ -1,0 +1,21 @@
+exports[`test Footer component should render 1`] = `
+<p>
+  Show:
+   
+  <span>
+    All
+  </span>
+   
+  <a
+    href="#"
+    onClick={[Function]}>
+    Active
+  </a>
+   
+  <a
+    href="#"
+    onClick={[Function]}>
+    Completed
+  </a>
+</p>
+`;
