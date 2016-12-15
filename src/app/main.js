@@ -1,22 +1,15 @@
+import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import React from 'react';
 import { render } from 'react-dom';
 import todoApp from './todos/reducers/reducers';
-import TodoApp from './todos/components/Todo/Todo.jsx';
+import App from './todos/components/App/App.jsx';
 
 const store = createStore(todoApp);
 
-const app = () => {
-    render(
-        <Provider store={store}>
-            <TodoApp
-                {...store.getState()}
-            />
-        </Provider>,
-        document.getElementById('root')
-    );
-};
-
-store.subscribe(app);
-app();
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);

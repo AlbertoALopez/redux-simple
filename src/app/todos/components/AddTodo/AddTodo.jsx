@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddTodo = ({ handleTodoAdd }) => {
+const AddTodo = ({ dispatch }) => {
     let input;
     return (
         <div>
@@ -11,7 +11,8 @@ const AddTodo = ({ handleTodoAdd }) => {
             />
             <button
                 onClick={() => {
-                    handleTodoAdd(input.value);
+                    dispatch(addTodo(inout.value));
+                    input.value = '';
                 }}
             >
                 Add Todo

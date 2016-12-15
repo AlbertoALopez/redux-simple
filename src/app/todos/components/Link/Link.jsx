@@ -1,12 +1,11 @@
 import React from 'react';
 
-const FilterLink = ({
-    filter,
-    currentFilter,
+const Link = ({
+    active,
     children,
     onClick,
 }) => {
-    if (filter === currentFilter) {
+    if (active) {
         return <span>{ children }</span>;
     }
     return (
@@ -14,7 +13,7 @@ const FilterLink = ({
             href="#"
             onClick={(e) => {
                 e.preventDefault(e);
-                onClick(filter);
+                onClick();
             }}
         >
             {children}
@@ -22,4 +21,4 @@ const FilterLink = ({
     );
 };
 
-export default FilterLink;
+export default Link;
