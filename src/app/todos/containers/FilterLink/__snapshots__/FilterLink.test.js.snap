@@ -1,1 +1,5 @@
-exports[`test FilterLink should render 1`] = `<span />`;
+exports[`test FilterLink should render 1`] = `
+<a
+  href="#"
+  onClick={[Function]} />
+`;

@@ -1,11 +1,9 @@
 /* Todo component */
 import React from 'react';
-import TodoList from '../TodoList/TodoList.jsx';
-import AddTodo from '../AddTodo/AddTodo.jsx';
-import VisibleTodoList from '../containers/VisibleTodoList';
+import Footer from '../Footer/Footer.jsx';
+import AddTodo from '../../containers/AddTodo/AddTodo.jsx';
+import VisibleTodoList from '../../containers/VisibleTodoList/VisibleTodoList.jsx';
 
-
-let nextTodoId = 0;
 
 const App = () => {
     return (
@@ -16,3 +14,5 @@ const App = () => {
         </div>
     );
 };
+
+export default App;

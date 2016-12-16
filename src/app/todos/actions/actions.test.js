@@ -5,7 +5,8 @@ describe('todo actions', () => {
     it('addTodo should create ADD_TODO action', () => {
         expect(actions.addTodo('Meow')).toEqual({
             type: types.ADD_TODO,
-            text: 'Meow'
+            text: 'Meow',
+            id: 0,
         });
     });
 

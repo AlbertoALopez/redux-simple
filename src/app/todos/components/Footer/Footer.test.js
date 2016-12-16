@@ -1,32 +1,28 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import renderer from 'react-test-renderer';
+import configureMockStore from 'redux-mock-store';
 import Footer from './Footer.jsx';
 
-function onFooterClick() {
-    console.log('click');
+function setup(...args) {
+    const props = {
+        ...args,
+    };
+
+    const enzymeWrapper = shallow(
+        <Footer
+            {...props}
+        />
+    );
+
+    return {
+        props,
+        enzymeWrapper,
+    };
 }
 
-test('Footer component should render', () => {
-    const component = renderer.create(
-        <Footer
-            visibilityFilter="SHOW_ALL"
-            onClick={onFooterClick}
-        />
-    );
-
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-});
-
 test('Footer should contain a selected filter and two unselected components', () => {
-    const wrapper = mount(
-        <Footer
-            visibilityFilter="SHOW_ALL"
-            onClick={onFooterClick}
-        />
-    );
+    const { enzymeWrapper } = setup();
 
-    expect(wrapper.find('span').length).toBe(1);
-    expect(wrapper.find('a').length).toBe(2);
+    expect(enzymeWrapper.find('p').length).toBe(1);
 });
